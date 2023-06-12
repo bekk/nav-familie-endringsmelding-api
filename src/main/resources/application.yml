@@ -1,0 +1,102 @@
+application:
+  name: familie-endringsmelding-api
+server:
+  port: 8000
+  servlet:
+    context-path: /familie/endringsmelding/api
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+springdoc:
+  packagesToScan: no.nav.familie.endringsmelding
+  pathsToMatch: /v3/api-docs,/api/**
+  swagger-ui:
+    disable-swagger-default-url: true
+
+familie:
+  ef:
+    mottak:
+      uri: http://familie-ef-mottak/api
+      audience: prod-gcp:teamfamilie:familie-ef-mottak
+  ba:
+    mottak:
+      uri: http://familie-ba-mottak/api
+      audience: prod-gcp:teamfamilie:familie-ba-mottak
+
+health:
+  indicator:
+    detailed: true
+
+funksjonsbrytere:
+  enabled: true
+  unleash:
+    uri: https://unleash.nais.io/api/
+    environment: ${NAIS_CLUSTER_NAME:}
+    applicationName: ${NAIS_APP_NAME:}
+
+management:
+  endpoint:
+    health:
+      show-details: always
+      enabled: true
+  endpoints.web:
+    exposure.include: info, health, metrics, prometheus
+    base-path: "/internal"
+    path-mapping:
+      info: "status/isAlive"
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    web:
+      server:
+        request:
+          autotime:
+            enabled: true
+
+no.nav.security.jwt:
+  issuer:
+    selvbetjening:
+      discoveryurl: ${LOGINSERVICE_IDPORTEN_DISCOVERY_URL}
+      accepted_audience: ${LOGINSERVICE_IDPORTEN_AUDIENCE}
+      cookie_name: selvbetjening-idtoken
+    tokenx:
+      discovery-url: ${TOKEN_X_WELL_KNOWN_URL}
+      accepted-audience: ${TOKEN_X_CLIENT_ID}
+  client.registration:
+    ef-mottak:
+      resource-url: ${familie.ef.mottak.uri}
+      well-known-url: ${TOKEN_X_WELL_KNOWN_URL}
+      grant-type: urn:ietf:params:oauth:grant-type:token-exchange
+      token-exchange:
+        audience: ${familie.ef.mottak.audience}
+      authentication:
+        client-id: ${TOKEN_X_CLIENT_ID}
+        client-auth-method: private_key_jwt
+        client-jwk: ${TOKEN_X_PRIVATE_JWK}
+    ba-mottak:
+      resource-url: ${familie.ba.mottak.uri}
+      well-known-url: ${TOKEN_X_WELL_KNOWN_URL}
+      grant-type: urn:ietf:params:oauth:grant-type:token-exchange
+      token-exchange:
+        audience: ${familie.ba.mottak.audience}
+      authentication:
+        client-id: ${TOKEN_X_CLIENT_ID}
+        client-auth-method: private_key_jwt
+        client-jwk: ${TOKEN_X_PRIVATE_JWK}
+    pdl:
+      resource-url: ${PDL_URL}
+      well-known-url: ${TOKEN_X_WELL_KNOWN_URL}
+      grant-type: urn:ietf:params:oauth:grant-type:token-exchange
+      token-exchange:
+        audience: ${PDL_AUDIENCE}
+      authentication:
+        client-id: ${TOKEN_X_CLIENT_ID}
+        client-auth-method: private_key_jwt
+        client-jwk: ${TOKEN_X_PRIVATE_JWK}
+
+PDL_URL: https://pdl-api.prod-fss-pub.nais.io
+PDL_AUDIENCE: prod-fss:pdl:pdl-api
+PDL_SCOPE: api://prod-fss.pdl.pdl-api/.default

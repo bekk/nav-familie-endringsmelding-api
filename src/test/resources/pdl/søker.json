@@ -1,0 +1,53 @@
+{
+  "data": {
+    "person": {
+      "adressebeskyttelse": [
+        {
+          "gradering": "UGRADERT"
+        }
+      ],
+      "bostedsadresse": [
+        {
+          "vegadresse": {
+            "husnummer": "77",
+            "husbokstav": null,
+            "bruksenhetsnummer": null,
+            "adressenavn": "INNGJERDSVEGEN",
+            "postnummer": "0862",
+            "matrikkelId": 1
+          },
+          "matrikkeladresse": {
+            "matrikkelId": 2,
+            "tilleggsnavn": "Noe",
+            "postnummer": "0862"
+          }
+        }
+      ],
+      "forelderBarnRelasjon": [
+        {
+          "relatertPersonsRolle": "BARN",
+          "relatertPersonsIdent": "11111112345"
+        }
+      ],
+      "navn": [
+        {
+          "fornavn": "BRÅKETE",
+          "mellomnavn": null,
+          "etternavn": "KAMELEON"
+        }
+      ],
+      "sivilstand": [
+        {
+          "type": "UGIFT"
+        }
+      ],
+      "statsborgerskap": [
+        {
+          "land": "NOR",
+          "gyldigFraOgMed": null,
+          "gyldigTilOgMed": null
+        }
+      ]
+    }
+  }
+}

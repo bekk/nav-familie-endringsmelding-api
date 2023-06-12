@@ -1,0 +1,59 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: familie-endringsmelding-api
+  namespace: teamfamilie
+  labels:
+    team: teamfamilie
+
+spec:
+  image: {{ image }}
+  port: 8000
+  liveness:
+    path: /familie/endringsmelding-api/internal/status/isAlive
+    initialDelay: 30
+    failureThreshold: 10
+  readiness:
+    path: /familie/endringsmelding-api/internal/status/isAlive
+    initialDelay: 30
+    failureThreshold: 10
+  prometheus:
+    enabled: true
+    path: /familie/endringsmelding-api/internal/prometheus
+  replicas:
+    min: 2
+    max: 4
+    cpuThresholdPercentage: 50
+  resources:
+    limits:
+      memory: 2Gi
+      cpu: "1"
+    requests:
+      memory: 1Gi
+      cpu: 500m
+  secureLogs:
+    enabled: true
+  ingresses:
+    - https://www.nav.no/familie/endringsmelding-api
+  azure:
+    application:
+      enabled: true
+  tokenx:
+    enabled: true
+  accessPolicy:
+    inbound:
+      rules:
+        - application: familie-endringsmelding
+    outbound:
+      rules:
+        - application: familie-ef-mottak
+        - application: familie-ba-mottak
+      external:
+        - host: unleash.nais.io
+        - host: pdl-api.prod-fss-pub.nais.io
+  envFrom:
+    - configmap: loginservice-idporten
+    - secret: familie
+  env:
+    - name: SPRING_PROFILES_ACTIVE
+      value: prod

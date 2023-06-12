@@ -1,0 +1,13 @@
+familie:
+  ef:
+    mottak:
+      uri: http://familie-ef-mottak/api
+      audience: dev-gcp:teamfamilie:familie-ef-mottak
+  ba:
+    mottak:
+      uri: http://familie-ba-mottak/api
+      audience: dev-gcp:teamfamilie:familie-ba-mottak
+
+PDL_URL: https://pdl-api.dev-fss-pub.nais.io
+PDL_AUDIENCE: dev-fss:pdl:pdl-api
+PDL_SCOPE: api://dev-fss.pdl.pdl-api/.default
