@@ -6,14 +6,11 @@ bruk Launcher : ApplicationLocalLauncher
 
 
 ## Hvordan logge inn på localhost:
-Eksempel:
-http://localhost:8099/local/cookie?issuerId=selvbetjening&audience=aud-localhost
-
 Med redirect:
-http://localhost:8099/local/cookie?redirect=http://localhost:3000/familie/endringsmelding&issuerId=selvbetjening&audience=aud-localhost
+http://localhost:8099/local/cookie?redirect=http://localhost:3000&issuerId=tokenx&audience=familie-endringsmelding
 
-For å logge inn med et gyldig fødselsnummer:
-http://localhost:8099/local/cookie?subject=[gyldigFødselsnummer]
+For å logge inn med et eget fødselsnummer må du sette subject:
+http://localhost:8099/local/cookie?subject=[gyldigFødselsnummer]&redirect=http://localhost:3000&issuerId=tokenx&audience=familie-endringsmelding
 
 ### Swagger api kall med autentisering:
 http://localhost:8099/swagger-ui.html
