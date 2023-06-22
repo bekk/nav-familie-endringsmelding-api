@@ -47,7 +47,7 @@ class MockLoginController(val mockOAuth2Server: MockOAuth2Server) {
         redirect: String?,
     ): javax.servlet.http.Cookie? {
         val cookie: javax.servlet.http.Cookie = javax.servlet.http.Cookie(cookieName, token)
-        cookie.setDomain("fly.dev")
+        cookie.setDomain("nav-familie-endringsmelding.fly.dev/")
         cookie.setPath("/")
         response.addCookie(cookie)
         return if (redirect != null) {
