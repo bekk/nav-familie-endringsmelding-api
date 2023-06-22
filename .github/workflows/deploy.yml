@@ -33,9 +33,6 @@ jobs:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         run: mvn -Dmaven.test.skip=true --no-transfer-progress package --settings .m2/maven-settings.xml --file pom.xml
 
-      - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
-
       - name: 👀 Read app name
         uses: SebRollen/toml-action@v1.0.2
         id: app_name
