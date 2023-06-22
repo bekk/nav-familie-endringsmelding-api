@@ -1,5 +1,5 @@
 #FROM ghcr.io/navikt/baseimages/temurin:17
-FROM eclipse-temurin:17-jdk-alpine
+FROM eclipse-temurin:17-jdk
 
 ENV APPLICATION_NAME=familie-endringsmelding-api
 ENV SPRING_PROFILES_ACTIVE=fly
