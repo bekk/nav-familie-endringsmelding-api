@@ -3,7 +3,6 @@ package no.nav.familie.endringsmelding.api
 import io.mockk.every
 import io.mockk.mockk
 import no.nav.familie.endringsmelding.api.dto.Kvittering
-import no.nav.familie.endringsmelding.config.CorsProperties
 import no.nav.familie.endringsmelding.featuretoggle.FeatureToggleService
 import no.nav.familie.endringsmelding.integrationTest.OppslagSpringRunnerTest
 import no.nav.familie.endringsmelding.service.EndringsmeldingService
