@@ -10,10 +10,9 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
 import org.springframework.context.annotation.Profile
 
-
 @Configuration // TODO: Slett når vi ikke bruker fly.io
 @Profile("fly")
-class MottakClientMock {
+class MottakClientMockFly {
 
     @Bean
     fun efMottakClient(): EfMottakClient {

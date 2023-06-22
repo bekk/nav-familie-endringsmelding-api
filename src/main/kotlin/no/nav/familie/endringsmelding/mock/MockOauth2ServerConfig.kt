@@ -19,7 +19,6 @@ import org.springframework.core.annotation.Order
 import javax.annotation.PostConstruct
 import javax.annotation.PreDestroy
 
-
 @Configuration // TODO: Slett når vi ikke bruker fly.io
 @Profile("fly")
 @AutoConfigureOrder(0)

@@ -21,7 +21,7 @@ import java.time.LocalDate
 // TODO: Slett når vi ikke bruker fly.io
 @Configuration
 @Profile("fly")
-class PdlClientConfig {
+class PdlClientConfigFly {
 
     private val startdato = LocalDate.of(2020, 1, 1)
     private val sluttdato = LocalDate.of(2021, 1, 1)
