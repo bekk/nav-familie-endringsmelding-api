@@ -12,4 +12,4 @@ import java.lang.annotation.Inherited
     MockOauth2ServerConfig::class,
 )
 @Profile("fly")
-annotation class EnableMockOAuth2Server()
+annotation class EnableMockOAuth2ServerFly

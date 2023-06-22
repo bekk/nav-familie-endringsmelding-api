@@ -73,7 +73,7 @@ abstract class OppslagSpringRunnerTest {
         subject: String,
         issuerId: String = "tokenx",
         clientId: String = UUID.randomUUID().toString(),
-        audience: String = "familie-app",
+        audience: String = "familie-endringsmelding",
         claims: Map<String, Any> = mapOf("acr" to "Level4"),
 
     ): String {

@@ -4,7 +4,7 @@ import com.nimbusds.jose.JOSEObjectType
 import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback
 import no.nav.security.token.support.core.api.Unprotected
-import org.springframework.core.annotation.Order
+import org.springframework.context.annotation.Profile
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController // TODO: Slett når vi ikke bruker fly.io
 @RequestMapping(path = ["/local"])
-@Order(1)
+@Profile("fly")
 class MockLoginController(val mockOAuth2Server: MockOAuth2Server) {
 
     @Unprotected
@@ -47,7 +47,7 @@ class MockLoginController(val mockOAuth2Server: MockOAuth2Server) {
         redirect: String?,
     ): javax.servlet.http.Cookie? {
         val cookie: javax.servlet.http.Cookie = javax.servlet.http.Cookie(cookieName, token)
-        cookie.setDomain("fly.dev")
+        cookie.setDomain("nav-familie-endringsmelding.fly.dev/")
         cookie.setPath("/")
         response.addCookie(cookie)
         return if (redirect != null) {
