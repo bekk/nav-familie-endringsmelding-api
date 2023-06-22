@@ -1,0 +1,55 @@
+server:
+  port: 8000
+  servlet:
+    context-path:
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+familie:
+  ef:
+    mottak:
+      uri: http://localhost:8092/api
+  ba:
+    mottak:
+      uri: http://localhost:8093/api
+
+funksjonsbrytere:
+  enabled: false
+  unleash:
+    uri: http://localhost:4242/api
+    environment: local
+    applicationName: familie-endringsmelding-api
+
+cors:
+  allowed_origins:
+    - "http://localhost:3000"
+    - "http://localhost:8080"
+    - "http://localhost:8000"
+    - "https://nav-familie-endringsmelding.fly.dev"
+
+logging:
+  config: classpath:logback-fly.xml
+no.nav.security.jwt:
+  issuer:
+    tokenx:
+      discovery-url: http://localhost:11499/tokenx/.well-known/openid-configuration
+      accepted-audience: familie-endringsmelding
+      cookie_name: localhost-idtoken
+  client.registration:
+    ef-mottak:
+      token-endpoint-url: http://metadata
+    ba-mottak:
+      token-endpoint-url: http://metadata
+    pdl:
+      token-endpoint-url: http://metadata
+
+TOKEN_X_WELL_KNOWN_URL: http://localhost
+TOKEN_X_PRIVATE_JWK: '{
+    "kty" : "RSA",
+    "e" : "AQAB",
+    "use" : "sig",
+    "kid" : "mock-oauth2-server-key",
+    "n" : ""
+  }'

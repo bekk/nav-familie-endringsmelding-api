@@ -137,12 +137,24 @@
             <version>${kontrakter.version}</version>
         </dependency>
 
+        <!-- SLETT NÅR VI IKKE BRUKER FLY.io Fjern samtidig denne fra exclusions nedenfor -->
+        <dependency>
+            <groupId>no.nav.security</groupId>
+            <artifactId>mock-oauth2-server</artifactId>
+            <version>0.5.8</version>
+            <scope>compile</scope>
+        </dependency>
         <!-- Test -->
         <dependency>
             <groupId>no.nav.security</groupId>
             <artifactId>token-validation-spring-test</artifactId>
             <version>${token-validation-spring.version}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>no.nav.security</groupId>
+                    <artifactId>mock-oauth2-server</artifactId>
+                </exclusion></exclusions>
         </dependency>
         <dependency>
             <groupId>no.nav.familie.felles</groupId>
@@ -154,7 +166,7 @@
             <groupId>io.mockk</groupId>
             <artifactId>mockk</artifactId>
             <version>${mockk.version}</version>
-            <scope>test</scope>
+            <!-- TODO: Sett scope til test når vi ikke bruker fly.io-->
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>

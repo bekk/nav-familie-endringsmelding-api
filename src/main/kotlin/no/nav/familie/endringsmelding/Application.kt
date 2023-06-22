@@ -1,11 +1,13 @@
 package no.nav.familie.endringsmelding
 
+import no.nav.familie.endringsmelding.mock.EnableMockOAuth2Server
 import no.nav.security.token.support.spring.api.EnableJwtTokenValidation
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 
 @ConfigurationPropertiesScan
+@EnableMockOAuth2Server // TODO: SLett når vi ikke bruker fly.io
 @SpringBootApplication(scanBasePackages = ["no.nav.familie.endringsmelding"])
 @EnableJwtTokenValidation(ignore = ["org.springframework", "org.springdoc"])
 class Application
