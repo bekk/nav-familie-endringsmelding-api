@@ -1,0 +1,15 @@
+# fly.toml app configuration file generated for nav-familie-endringsmelding-api on 2023-06-20T10:48:09+02:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "nav-familie-endringsmelding-api"
+primary_region = "arn"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+
