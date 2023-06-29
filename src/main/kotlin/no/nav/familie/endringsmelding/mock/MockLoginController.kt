@@ -37,6 +37,7 @@ class MockLoginController(val mockOAuth2Server: MockOAuth2Server) {
                 3600L,
             ),
         ).serialize()
+
         return this.createCookieAndAddToResponse(response, cookieName, token, redirect)
     }
 
