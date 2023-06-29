@@ -37,7 +37,6 @@ class MockLoginController(val mockOAuth2Server: MockOAuth2Server) {
                 3600L,
             ),
         ).serialize()
-        response.addHeader("Access-Control-Expose-Headers", "Set-Cookie")
 
         return this.createCookieAndAddToResponse(response, cookieName, token, redirect)
     }
@@ -49,7 +48,7 @@ class MockLoginController(val mockOAuth2Server: MockOAuth2Server) {
         redirect: String?,
     ): javax.servlet.http.Cookie? {
         val cookie: javax.servlet.http.Cookie = javax.servlet.http.Cookie(cookieName, token)
-        cookie.setDomain("https://nav-familie-endringsmelding.fly.dev/")
+        cookie.setDomain(".fly.dev/")
         cookie.setPath("/")
         response.addCookie(cookie)
         return if (redirect != null) {
