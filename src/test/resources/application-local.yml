@@ -14,6 +14,9 @@ familie:
   ba:
     mottak:
       uri: http://localhost:8093/api
+  ks:
+    mottak:
+      uri: http://localhost:8094/api
 
 funksjonsbrytere:
   enabled: false
@@ -40,6 +43,8 @@ no.nav.security.jwt:
     ef-mottak:
       token-endpoint-url: http://metadata
     ba-mottak:
+      token-endpoint-url: http://metadata
+    ks-mottak:
       token-endpoint-url: http://metadata
     pdl:
       token-endpoint-url: http://metadata
