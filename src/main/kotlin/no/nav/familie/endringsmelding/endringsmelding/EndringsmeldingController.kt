@@ -31,5 +31,4 @@ class EndringsmeldingController(val endringsmeldingService: EndringsmeldingServi
         val innsendingMottatt = LocalDateTime.now()
         return endringsmeldingService.sendInnBa(endringsmelding, innsendingMottatt)
     }
-
 }
