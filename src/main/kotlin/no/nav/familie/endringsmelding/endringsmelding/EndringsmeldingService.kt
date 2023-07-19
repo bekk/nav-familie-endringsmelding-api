@@ -14,31 +14,30 @@ class EndringsmeldingService(
     private val baMottakClient: BaMottakClient,
 ) {
 
-    var SPESIAL_TEGN_REGEX = "/[!@#\$%^&*()?\"{}|<>+¨=]/";
-    fun validerEndringsmelding(endringsmelding: String):String{
-        if(endringsmelding.length < 9){
-            println("For få tegn")
-            return "For få tegn"
+    val SPESIAL_TEGN_REGEX = "/[!@#\$%^&*()?\"{}|<>+¨=]/"
+    fun validerEndringsmelding(endringsmelding: String){
+        if(endringsmelding.isEmpty()){
+            throw ApiFeil(EndringsmeldingFeil.MANGLER_TEKST.toString(), HttpStatus.BAD_REQUEST)
         }
 
         if(endringsmelding.length > 1000){
-            println("For mange tegn")
-            return "For mange tegn";
+            throw ApiFeil(EndringsmeldingFeil.OVER_MAKS_LENGDE.toString(), HttpStatus.BAD_REQUEST)
         }
 
-        if(!endringsmelding.matches(SPESIAL_TEGN_REGEX.toRegex())){
-            println("Inneholder spesialtegn")
-            return "Inneholder spesialtegn";
+        if(endringsmelding.length < 9){
+            throw ApiFeil(EndringsmeldingFeil.MINDRE_ENN_TI_TEGN.toString(), HttpStatus.BAD_REQUEST)
         }
 
-        println("Validert Riktig");
-        return "";
+        if(endringsmelding.matches(SPESIAL_TEGN_REGEX.toRegex())){
+            throw ApiFeil(EndringsmeldingFeil.HAR_SPESIAL_TEGN.toString(), HttpStatus.BAD_REQUEST)
+        }
     }
 
     fun sendInnEf(
         endringsmelding: String,
         innsendingMottatt: LocalDateTime,
     ): Kvittering {
+        validerEndringsmelding(endringsmelding)
         val kvittering = efMottakClient.sendInn(endringsmelding)
         return Kvittering(kvittering.text, innsendingMottatt)
     }
@@ -47,10 +46,7 @@ class EndringsmeldingService(
         endringsmelding: String,
         innsendingMottatt: LocalDateTime,
     ): Kvittering {
-        val valideringsFeil  = validerEndringsmelding(endringsmelding);
-        if(!valideringsFeil.isEmpty()){
-            throw ApiFeil(valideringsFeil, HttpStatus.BAD_REQUEST)
-        }
+        validerEndringsmelding(endringsmelding)
         val kvittering = baMottakClient.sendInn(endringsmelding)
         return Kvittering(kvittering.text, innsendingMottatt)
     }
