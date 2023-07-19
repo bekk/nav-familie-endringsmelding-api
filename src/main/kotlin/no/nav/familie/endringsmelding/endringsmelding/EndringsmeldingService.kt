@@ -1,4 +1,4 @@
-package no.nav.familie.endringsmelding.service
+package no.nav.familie.endringsmelding.endringsmelding
 
 import no.nav.familie.endringsmelding.api.dto.Kvittering
 import no.nav.familie.endringsmelding.integration.BaMottakClient

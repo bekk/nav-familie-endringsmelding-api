@@ -5,7 +5,7 @@ import io.mockk.mockk
 import no.nav.familie.endringsmelding.api.dto.Kvittering
 import no.nav.familie.endringsmelding.featuretoggle.FeatureToggleService
 import no.nav.familie.endringsmelding.integrationTest.OppslagSpringRunnerTest
-import no.nav.familie.endringsmelding.service.EndringsmeldingService
+import no.nav.familie.endringsmelding.endringsmelding.EndringsmeldingService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
