@@ -1,8 +1,8 @@
-package no.nav.familie.endringsmelding.api
+package no.nav.familie.endringsmelding.endringsmelding
 
+import no.nav.familie.endringsmelding.api.ApiFeil
 import no.nav.familie.endringsmelding.api.dto.Kvittering
 import no.nav.familie.endringsmelding.featuretoggle.FeatureToggleService
-import no.nav.familie.endringsmelding.service.EndringsmeldingService
 import no.nav.familie.sikkerhet.EksternBrukerUtils
 import no.nav.security.token.support.core.api.ProtectedWithClaims
 import no.nav.security.token.support.core.api.RequiredIssuers
@@ -21,7 +21,7 @@ import java.time.LocalDateTime
     ProtectedWithClaims(issuer = EksternBrukerUtils.ISSUER_TOKENX, claimMap = ["acr=Level4"]),
 )
 @Validated
-class InnsendingController(val endringsmeldingService: EndringsmeldingService, val featureToggleService: FeatureToggleService) {
+class EndringsmeldingController(val endringsmeldingService: EndringsmeldingService, val featureToggleService: FeatureToggleService) {
 
     @PostMapping(path = ["/ba"])
     fun sendInn(@RequestBody endringsmelding: String): Kvittering {
