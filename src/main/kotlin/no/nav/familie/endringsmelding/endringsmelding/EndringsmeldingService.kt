@@ -19,7 +19,6 @@ class EndringsmeldingService(
     val SPESIAL_TEGN_REGEX = Regex("^[a-zA-ZæøåÆØÅ0-9.,:!?@% ]+$")
 
     fun validerEndringsmelding(endringsmelding: String) {
-        println("Endringsmelding: " + endringsmelding)
 
         if (endringsmelding.isEmpty()) {
             throw ApiFeil(EndringsmeldingFeil.MANGLER_TEKST.toString(), HttpStatus.BAD_REQUEST)
@@ -34,11 +33,9 @@ class EndringsmeldingService(
         }
 
         if (!endringsmelding.matches(SPESIAL_TEGN_REGEX)) {
-            println("FEIL for regex")
             throw ApiFeil(EndringsmeldingFeil.HAR_SPESIAL_TEGN.toString(), HttpStatus.BAD_REQUEST)
         }
 
-        println("Ingen validerings feil")
     }
 
     fun sendInnEf(
