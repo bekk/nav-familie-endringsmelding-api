@@ -29,7 +29,6 @@ class EndringsmeldingController(val endringsmeldingService: EndringsmeldingServi
             throw ApiFeil("Kan ikke sende inn endringsmelding - funksjonen er ikke aktivert", HttpStatus.BAD_REQUEST)
         }
         val innsendingMottatt = LocalDateTime.now()
-        println("endringsmelding BA: "+endringsmelding)
         return endringsmeldingService.sendInnBa(endringsmelding, innsendingMottatt)
     }
 
@@ -39,7 +38,6 @@ class EndringsmeldingController(val endringsmeldingService: EndringsmeldingServi
             throw ApiFeil("Kan ikke sende inn endringsmelding - funksjonen er ikke aktivert", HttpStatus.BAD_REQUEST)
         }
         val innsendingMottatt = LocalDateTime.now()
-        println("endringsmelding KS: "+endringsmelding)
         return endringsmeldingService.sendInnKs(endringsmelding, innsendingMottatt)
     }
 }

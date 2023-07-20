@@ -37,6 +37,7 @@ class MottakClientMockFly {
     }
 
     @Bean
+    @Primary
     fun ksMottakClient(): KsMottakClient {
         val ksMottakClient: KsMottakClient = mockk()
 

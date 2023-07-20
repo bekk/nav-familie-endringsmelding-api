@@ -24,9 +24,6 @@ import java.time.LocalDateTime
 @Configuration
 class EndringsmeldingControllerTestConfiguration {
 
-    @Primary
-    @Bean
-    fun endringsmeldingService(): EndringsmeldingService = mockk()
 
     @Primary
     @Bean
@@ -35,9 +32,6 @@ class EndringsmeldingControllerTestConfiguration {
 
 @ActiveProfiles("send-inn-controller-test")
 internal class EndringsmeldingControllerTest : OppslagSpringRunnerTest() {
-
-    @Autowired
-    lateinit var endringsmeldingService: EndringsmeldingService
 
     @Autowired
     lateinit var featureToggleService: FeatureToggleService
@@ -50,12 +44,9 @@ internal class EndringsmeldingControllerTest : OppslagSpringRunnerTest() {
     }
 
     @Test
-    fun `sendInn returnerer kvittering riktig kvittering med riktig Bearer token`() {
+    fun `sendInn returnerer kvittering riktig kvittering med riktig Bearer token for BA`() {
         val endringsmelding = "xyz"
-        every { endringsmeldingService.sendInnBa(endringsmelding, any()) } returns Kvittering(
-            "Mottatt endringsmelding: $endringsmelding",
-            LocalDateTime.now(),
-        )
+
         every { featureToggleService.isEnabled(any()) } returns true
 
         val response = restTemplate.exchange<Kvittering>(
@@ -65,6 +56,22 @@ internal class EndringsmeldingControllerTest : OppslagSpringRunnerTest() {
         )
 
         assertThat(response.statusCodeValue).isEqualTo(200)
-        assertThat(response.body?.text).isEqualTo("Mottatt endringsmelding: $endringsmelding")
+        assertThat(response.body?.text).isEqualTo("OK MOCK")
+    }
+
+    @Test
+    fun `sendInn returnerer kvittering riktig kvittering med riktig Bearer token for KS`() {
+        val endringsmelding = "xyz"
+
+        every { featureToggleService.isEnabled(any()) } returns true
+
+        val response = restTemplate.exchange<Kvittering>(
+                localhost("/api/send-inn/ks"),
+                HttpMethod.POST,
+                HttpEntity(endringsmelding, headers),
+        )
+
+        assertThat(response.statusCodeValue).isEqualTo(200)
+        assertThat(response.body?.text).isEqualTo("OK MOCK KS")
     }
 }
