@@ -4,14 +4,16 @@ import no.nav.familie.endringsmelding.api.ApiFeil
 import no.nav.familie.endringsmelding.api.dto.Kvittering
 import no.nav.familie.endringsmelding.integration.BaMottakClient
 import no.nav.familie.endringsmelding.integration.EfMottakClient
+import no.nav.familie.endringsmelding.integration.KsMottakClient
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
 @Service
 class EndringsmeldingService(
-    private val efMottakClient: EfMottakClient,
-    private val baMottakClient: BaMottakClient,
+        private val efMottakClient: EfMottakClient,
+        private val baMottakClient: BaMottakClient,
+        private val ksMottakClient: KsMottakClient,
 ) {
 
     val SPESIAL_TEGN_REGEX = "/[!@#\$%^&*()?\"{}|<>+¨=]/"
@@ -48,6 +50,14 @@ class EndringsmeldingService(
     ): Kvittering {
         validerEndringsmelding(endringsmelding)
         val kvittering = baMottakClient.sendInn(endringsmelding)
+        return Kvittering(kvittering.text, innsendingMottatt)
+    }
+
+    fun sendInnKs(
+            endringsmelding: String,
+            innsendingMottatt: LocalDateTime,
+    ): Kvittering {
+        val kvittering = ksMottakClient.sendInn(endringsmelding)
         return Kvittering(kvittering.text, innsendingMottatt)
     }
 }
