@@ -31,4 +31,13 @@ class EndringsmeldingController(val endringsmeldingService: EndringsmeldingServi
         val innsendingMottatt = LocalDateTime.now()
         return endringsmeldingService.sendInnBa(endringsmelding, innsendingMottatt)
     }
+
+    @PostMapping(path = ["/ks"])
+    fun sendInnKs(@RequestBody endringsmelding: String): Kvittering {
+        if (!featureToggleService.isEnabled("familie.endringsmelding.send-inn")) {
+            throw ApiFeil("Kan ikke sende inn endringsmelding - funksjonen er ikke aktivert", HttpStatus.BAD_REQUEST)
+        }
+        val innsendingMottatt = LocalDateTime.now()
+        return endringsmeldingService.sendInnKs(endringsmelding, innsendingMottatt)
+    }
 }

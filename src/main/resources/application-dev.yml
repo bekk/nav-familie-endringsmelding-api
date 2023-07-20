@@ -7,6 +7,10 @@ familie:
     mottak:
       uri: http://familie-ba-mottak/api
       audience: dev-gcp:teamfamilie:familie-ba-mottak
+  ks:
+    mottak:
+      uri: http://familie-ks-mottak/api
+      audience: dev-gcp:teamfamilie:familie-ks-mottak
 
 PDL_URL: https://pdl-api.dev-fss-pub.nais.io
 PDL_AUDIENCE: dev-fss:pdl:pdl-api
