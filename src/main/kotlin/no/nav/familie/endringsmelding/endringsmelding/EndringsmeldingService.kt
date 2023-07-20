@@ -16,8 +16,10 @@ class EndringsmeldingService(
         private val ksMottakClient: KsMottakClient,
 ) {
 
-    val SPESIAL_TEGN_REGEX = "/[!@#\$%^&*()?\"{}|<>+¨=]/"
+    val SPESIAL_TEGN_REGEX = Regex("^[a-zA-ZæøåÆØÅ0-9.,:!?@% ]+$")
+
     fun validerEndringsmelding(endringsmelding: String) {
+
         if (endringsmelding.isEmpty()) {
             throw ApiFeil(EndringsmeldingFeil.MANGLER_TEKST.toString(), HttpStatus.BAD_REQUEST)
         }
@@ -26,13 +28,14 @@ class EndringsmeldingService(
             throw ApiFeil(EndringsmeldingFeil.OVER_MAKS_LENGDE.toString(), HttpStatus.BAD_REQUEST)
         }
 
-        if (endringsmelding.length < 9) {
+        if (endringsmelding.length < 10) {
             throw ApiFeil(EndringsmeldingFeil.MINDRE_ENN_TI_TEGN.toString(), HttpStatus.BAD_REQUEST)
         }
 
-        if (endringsmelding.matches(SPESIAL_TEGN_REGEX.toRegex())) {
+        if (!endringsmelding.matches(SPESIAL_TEGN_REGEX)) {
             throw ApiFeil(EndringsmeldingFeil.HAR_SPESIAL_TEGN.toString(), HttpStatus.BAD_REQUEST)
         }
+
     }
 
     fun sendInnEf(
