@@ -23,17 +23,11 @@ import java.time.LocalDateTime
 @Validated
 class EndringsmeldingController(val endringsmeldingService: EndringsmeldingService, val featureToggleService: FeatureToggleService) {
 
-    data class Endringsmelding(
-            val tekst: String,
-            val dokumenter: List<String>? = emptyList()
-    )
-
     @PostMapping(path = ["/ba"])
     fun sendInn(@RequestBody endringsmelding: Endringsmelding): Kvittering {
         if (!featureToggleService.isEnabled("familie.endringsmelding.send-inn")) {
             throw ApiFeil("Kan ikke sende inn endringsmelding - funksjonen er ikke aktivert", HttpStatus.BAD_REQUEST)
         }
-
         val innsendingMottatt = LocalDateTime.now()
         return endringsmeldingService.sendInnBa(endringsmelding.tekst, innsendingMottatt)
     }
