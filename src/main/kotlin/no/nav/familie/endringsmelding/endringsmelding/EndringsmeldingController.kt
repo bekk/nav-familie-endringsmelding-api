@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDateTime
 
 @RestController
-@RequestMapping(path = ["/api/send-inn"], produces = [APPLICATION_JSON_VALUE])
+@RequestMapping(path = ["/api/send-inn"], produces = [APPLICATION_JSON_VALUE], consumes = [APPLICATION_JSON_VALUE])
 @RequiredIssuers(
     ProtectedWithClaims(issuer = EksternBrukerUtils.ISSUER_TOKENX, claimMap = ["acr=Level4"]),
 )
@@ -24,20 +24,20 @@ import java.time.LocalDateTime
 class EndringsmeldingController(val endringsmeldingService: EndringsmeldingService, val featureToggleService: FeatureToggleService) {
 
     @PostMapping(path = ["/ba"])
-    fun sendInn(@RequestBody endringsmelding: String): Kvittering {
+    fun sendInn(@RequestBody endringsmelding: Endringsmelding): Kvittering {
         if (!featureToggleService.isEnabled("familie.endringsmelding.send-inn")) {
             throw ApiFeil("Kan ikke sende inn endringsmelding - funksjonen er ikke aktivert", HttpStatus.BAD_REQUEST)
         }
         val innsendingMottatt = LocalDateTime.now()
-        return endringsmeldingService.sendInnBa(endringsmelding, innsendingMottatt)
+        return endringsmeldingService.sendInnBa(endringsmelding.tekst, innsendingMottatt)
     }
 
     @PostMapping(path = ["/ks"])
-    fun sendInnKs(@RequestBody endringsmelding: String): Kvittering {
+    fun sendInnKs(@RequestBody endringsmelding: Endringsmelding): Kvittering {
         if (!featureToggleService.isEnabled("familie.endringsmelding.send-inn")) {
             throw ApiFeil("Kan ikke sende inn endringsmelding - funksjonen er ikke aktivert", HttpStatus.BAD_REQUEST)
         }
         val innsendingMottatt = LocalDateTime.now()
-        return endringsmeldingService.sendInnKs(endringsmelding, innsendingMottatt)
+        return endringsmeldingService.sendInnKs(endringsmelding.tekst, innsendingMottatt)
     }
 }

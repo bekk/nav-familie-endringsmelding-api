@@ -12,13 +12,13 @@ class EndringsmeldingServiceTest {
 
     @Test
     fun `skal validere med alle godkjente tegn`() {
-        val endringsmeldingService = EndringsmeldingService(mockk(), mockk())
+        val endringsmeldingService = EndringsmeldingService(mockk(), mockk(), mockk())
         endringsmeldingService.validerEndringsmelding("Denne skal fungere: Hvorfor? @charlie.  Flere tegn: ÆØÅ.,%. Tall: 1234567890")
     }
 
     @Test
     fun `skal feile med ingen tekst`() {
-        val endringsmeldingService = EndringsmeldingService(mockk(), mockk())
+        val endringsmeldingService = EndringsmeldingService(mockk(), mockk(), mockk())
 
         val feil = assertThrows<ApiFeil> {
             endringsmeldingService.validerEndringsmelding("")
@@ -30,7 +30,7 @@ class EndringsmeldingServiceTest {
 
     @Test
     fun `skal feile med tekst mer enn 1000 tegn`() {
-        val endringsmeldingService = EndringsmeldingService(mockk(), mockk())
+        val endringsmeldingService = EndringsmeldingService(mockk(), mockk(), mockk())
 
         val FOR_LANG_MELDING = """
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consectetur a ex quis ultricies. Donec tincidunt fermentum eros, ut efficitur massa dictum eu. Morbi ac pellentesque justo. Integer cursus magna metus. Pellentesque eleifend enim est, sed semper ante pretium nec. Nulla scelerisque, elit sed varius hendrerit, urna ex rutrum urna, vel malesuada diam justo et eros. Maecenas et ornare mi. Nam pharetra in elit quis eleifend. Vestibulum mollis nisi eu quam pharetra, vel vestibulum diam consequat. Vivamus commodo, libero consequat laoreet pellentesque, nisi quam ultricies dui, id egestas mauris urna at quam. Aliquam ipsum ligula, venenatis eu gravida ac, luctus pharetra elit. Nunc feugiat nibh rhoncus arcu sagittis, et sodales sapien elementum. Sed bibendum lectus sed magna maximus vestibulum.
@@ -61,7 +61,7 @@ class EndringsmeldingServiceTest {
 
     @Test
     fun `skal feile med tekst mindre enn 10 tegn`() {
-        val endringsmeldingService = EndringsmeldingService(mockk(), mockk())
+        val endringsmeldingService = EndringsmeldingService(mockk(), mockk(), mockk())
 
         val feil = assertThrows<ApiFeil> {
             endringsmeldingService.validerEndringsmelding("123456789")
@@ -73,7 +73,7 @@ class EndringsmeldingServiceTest {
 
     @Test
     fun `skal feile med spesialtegn som ikke er tillat`() {
-        val endringsmeldingService = EndringsmeldingService(mockk(), mockk())
+        val endringsmeldingService = EndringsmeldingService(mockk(), mockk(), mockk())
 
         val feil = assertThrows<ApiFeil> {
             endringsmeldingService.validerEndringsmelding("Denne ikke () skal fungere")

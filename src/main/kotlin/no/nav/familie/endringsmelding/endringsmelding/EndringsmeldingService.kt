@@ -16,7 +16,7 @@ class EndringsmeldingService(
         private val ksMottakClient: KsMottakClient,
 ) {
 
-    val SPESIAL_TEGN_REGEX = Regex("^[a-zA-ZæøåÆØÅ0-9.,:!?@% ]+$")
+    val INGEN_SPESIALTEGN_REGEX = Regex("^[a-zA-Z0-9æøåÆØÅ.,:!?@% ]+$")
 
     fun validerEndringsmelding(endringsmelding: String) {
 
@@ -32,7 +32,7 @@ class EndringsmeldingService(
             throw ApiFeil(EndringsmeldingFeil.MINDRE_ENN_TI_TEGN.toString(), HttpStatus.BAD_REQUEST)
         }
 
-        if (!endringsmelding.matches(SPESIAL_TEGN_REGEX)) {
+        if (!endringsmelding.matches(INGEN_SPESIALTEGN_REGEX)) {
             throw ApiFeil(EndringsmeldingFeil.HAR_SPESIAL_TEGN.toString(), HttpStatus.BAD_REQUEST)
         }
 
@@ -60,6 +60,7 @@ class EndringsmeldingService(
             endringsmelding: String,
             innsendingMottatt: LocalDateTime,
     ): Kvittering {
+        validerEndringsmelding(endringsmelding)
         val kvittering = ksMottakClient.sendInn(endringsmelding)
         return Kvittering(kvittering.text, innsendingMottatt)
     }
