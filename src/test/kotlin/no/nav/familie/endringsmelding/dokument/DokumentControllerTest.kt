@@ -1,24 +1,24 @@
 package no.nav.familie.endringsmelding.dokument
 
 import no.nav.familie.endringsmelding.integrationTest.OppslagSpringRunnerTest
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import org.assertj.core.api.Assertions
-import org.eclipse.jetty.http.HttpStatus
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.springframework.boot.test.web.client.postForEntity
+import org.springframework.boot.test.web.client.exchange
+import org.springframework.http.ContentDisposition
 import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpMethod
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
-import org.springframework.mock.web.MockMultipartFile
+import org.springframework.http.ResponseEntity
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap
-import java.io.File
 
-
-class DokumentControllerTest : OppslagSpringRunnerTest(){
+class DokumentControllerTest : OppslagSpringRunnerTest() {
 
     val tokenSubject = "12345678911"
+
     @BeforeEach
     fun førAlle() {
         headers.setBearerAuth(søkerBearerToken(tokenSubject))
@@ -27,33 +27,32 @@ class DokumentControllerTest : OppslagSpringRunnerTest(){
 
     @Test
     fun `skal kunne laste opp dokument`() {
+        val filnavn = "minfil"
+        val filInnhold = "x".toByteArray()
+        val response = lastOppFil(filnavn, filInnhold)
+        Assertions.assertThat(response.statusCodeValue).isEqualTo(HttpStatus.CREATED.value())
+        Assertions.assertThat(response.body?.get("dokumentId")).isNotNull()
+        Assertions.assertThat(response.body?.get("filnavn")).isEqualTo(filnavn)
+    }
 
-        /**
-        val nyFil = MockMultipartFile("minfil","minfil","application/pdf", "Eg heiter Kjetil!!!".toByteArray())
+    fun lastOppFil(filnavn: String, filInnhold: ByteArray): ResponseEntity<Map<String, String>> {
 
-        val requestMap = LinkedMultiValueMap<String, Any>()
-        //requestMap.add("file", ByteArrayResource("test".toByteArray()))
-        requestMap.add("file", File("/Users/kjetil/Documents/Kotlin Language Features Map.pdf"))
+        val filMap: MultiValueMap<String, String> = LinkedMultiValueMap()
+        val contentDisposition = ContentDisposition
+            .builder("form-data")
+            .name("file")
+            .filename(filnavn)
+            .build()
+        filMap.add(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString())
 
-        val requestEntity = HttpEntity<MultiValueMap<String, Any>>(requestMap, headers)
+        val body: MultiValueMap<String, Any> = LinkedMultiValueMap()
+        body.add("file", HttpEntity(filInnhold, filMap))
 
-        /**
-         *
-        val response = restTemplate.exchange<Map<String, String>>(
+        return restTemplate.exchange<Map<String, String>>(
             localhost("/api/dokument"),
             HttpMethod.POST,
-            HttpEntity(requestMap, headers),
+            HttpEntity(body, headers),
+            String::class.java
         )
-         */
-
-        val response2 = restTemplate.postForEntity<Map<String, String>>(localhost("/api/dokument"), requestEntity)
-        println(response2.toString())
-
-        Assertions.assertThat(response2.statusCodeValue).isEqualTo(HttpStatus.CREATED_201)
-        Assertions.assertThat(response2.body?.get("dokumentId")).isNotNull()
-        Assertions.assertThat(response2.body?.get("filnavn")).isEqualTo("minfil")
-
-        */
-
     }
 }

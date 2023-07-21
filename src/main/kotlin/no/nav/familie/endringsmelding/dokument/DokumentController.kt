@@ -21,10 +21,9 @@ import java.util.UUID
 
 @RestController
 @RequestMapping(path = ["/api/dokument"], produces = [MediaType.APPLICATION_JSON_VALUE], consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
-//@RequiredIssuers(
-  //  ProtectedWithClaims(issuer = EksternBrukerUtils.ISSUER_TOKENX, claimMap = ["acr=Level4"]),
-//)
-@Unprotected
+@RequiredIssuers(
+   ProtectedWithClaims(issuer = EksternBrukerUtils.ISSUER_TOKENX, claimMap = ["acr=Level4"]),
+)
 @Profile("fly", "local")
 class DokumentController {
 
