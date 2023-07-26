@@ -24,20 +24,26 @@ import java.time.LocalDateTime
 class EndringsmeldingController(val endringsmeldingService: EndringsmeldingService, val featureToggleService: FeatureToggleService) {
 
     @PostMapping(path = ["/ba"])
-    fun sendInn(@RequestBody endringsmelding: Endringsmelding): Kvittering {
+    fun sendInn(@RequestBody endringsmelding: EndringsmeldingPayload): Kvittering {
         if (!featureToggleService.isEnabled("familie.endringsmelding.send-inn")) {
             throw ApiFeil("Kan ikke sende inn endringsmelding - funksjonen er ikke aktivert", HttpStatus.BAD_REQUEST)
         }
+        val endringsmeldingDto = EndringsmeldingDto(tekst = endringsmelding.tekst, dokumenter = endringsmelding.dokumenter.split(","))
+        println("Dokumenter som skal bli sendt videre herifra" + endringsmeldingDto.dokumenter)
+
         val innsendingMottatt = LocalDateTime.now()
-        return endringsmeldingService.sendInnBa(endringsmelding.tekst, innsendingMottatt)
+        return endringsmeldingService.sendInnBa(endringsmeldingDto.tekst, innsendingMottatt)
     }
 
     @PostMapping(path = ["/ks"])
-    fun sendInnKs(@RequestBody endringsmelding: Endringsmelding): Kvittering {
+    fun sendInnKs(@RequestBody endringsmelding: EndringsmeldingPayload): Kvittering {
         if (!featureToggleService.isEnabled("familie.endringsmelding.send-inn")) {
             throw ApiFeil("Kan ikke sende inn endringsmelding - funksjonen er ikke aktivert", HttpStatus.BAD_REQUEST)
         }
+        val endringsmeldingDto = EndringsmeldingDto(tekst = endringsmelding.tekst, dokumenter = endringsmelding.dokumenter.split(","))
+        println("Dokumenter som skal bli sendt videre herifra" + endringsmeldingDto.dokumenter)
+
         val innsendingMottatt = LocalDateTime.now()
-        return endringsmeldingService.sendInnKs(endringsmelding.tekst, innsendingMottatt)
+        return endringsmeldingService.sendInnKs(endringsmeldingDto.tekst, innsendingMottatt)
     }
 }
