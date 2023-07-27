@@ -51,7 +51,7 @@ class PdlClientConfigFly {
     }
 
     private fun lagNavn(
-        fornavn: String = "Askeladden",
+        fornavn: String = "Anne",
         mellomnavn: String? = "mellomnavn",
         etternavn: String = "Etternavn",
     ): List<Navn> =
